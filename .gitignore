@@ -28,6 +28,9 @@ SV_python/*.xlsx
 # Xcode / Stellarvum (al eigen git-repo)
 Stellarvum/
 
+# Session wrap-up files (personal archive, not for git)
+Sessions/
+
 # Editor
 .vscode/
 .idea/

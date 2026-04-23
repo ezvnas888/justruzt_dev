@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snapstern — Financial Intelligence Tools</title>
+  <meta name="description" content="Snapstern builds premium financial intelligence tools. CryptoSnap is in beta and Stellarvum is the flagship multi-asset portfolio intelligence platform." />
+  <meta name="theme-color" content="#071a2c" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --line: rgba(176,202,223,.16);
+      --text: #edf4fb;
+      --muted: #a9bfd3;
+      --gold: #f3b63f;
+      --gold2: #ffd77f;
+      --shadow: 0 34px 90px rgba(0,0,0,.36);
+      --max: 1180px;
+      --panel: rgba(9,28,44,.72);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 480px at 12% -10%, rgba(243,182,63,.16), transparent 60%),
+        radial-gradient(760px 420px at 100% 10%, rgba(255,255,255,.07), transparent 60%),
+        linear-gradient(180deg,#03111e 0%, #051726 48%, #061521 100%);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .wrap { width: min(var(--max), 92vw); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(4,18,33,.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:22px; padding:16px 0; }
+    .brand { display:flex; align-items:center; gap:14px; }
+    .brand-mark {
+      width: 50px; height: 50px; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.06);
+      background: rgba(255,255,255,.03);
+    }
+    .brand small { display:block; color:var(--muted); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700; }
+    .brand strong { display:block; font-size:1.06rem; font-weight:800; }
+    nav { display:flex; gap:22px; color:var(--muted); }
+    nav a:hover, .foot-links a:hover { color:#fff; }
+    .cta { display:flex; gap:10px; align-items:center; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:13px 18px; border-radius:999px; border:1px solid var(--line);
+      background:rgba(255,255,255,.03); font-weight:700; transition:.25s ease;
+    }
+    .btn:hover { transform:translateY(-1px); border-color:rgba(243,182,63,.4); }
+    .btn.primary {
+      background:linear-gradient(135deg,var(--gold2),var(--gold));
+      color:#081520; border-color:transparent; box-shadow:0 10px 30px rgba(243,182,63,.24);
+    }
+    .hero { padding: 88px 0 56px; }
+    .hero-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:34px; align-items:center; }
+    .eyebrow {
+      display:inline-flex; padding:8px 12px; border-radius:999px; border:1px solid var(--line);
+      background:rgba(255,255,255,.04); color:var(--muted); font-size:.76rem;
+      letter-spacing:.12em; text-transform:uppercase; font-weight:700;
+    }
+    h1 { font-size:clamp(3.2rem,6vw,5.7rem); line-height:.92; letter-spacing:-.05em; margin:18px 0 16px; }
+    .lead { font-size:1.1rem; line-height:1.74; color:#d6e4f0; max-width:60ch; }
+    .chips { display:flex; gap:10px; flex-wrap:wrap; margin:24px 0 0; }
+    .chip { padding:10px 12px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:#d9e7f3; font-size:.9rem; }
+    .hero-card, .card, .product-card {
+      background: linear-gradient(180deg, rgba(10,30,48,.86), rgba(8,22,35,.74));
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+    }
+    .hero-card {
+      position:relative; padding:28px; border-radius:34px; overflow:hidden;
+    }
+    .hero-card::before, .product-card::before {
+      content:""; position:absolute; inset:0;
+      background: radial-gradient(460px 260px at 70% 10%, rgba(243,182,63,.18), transparent 55%), radial-gradient(420px 240px at 0% 100%, rgba(255,255,255,.08), transparent 55%);
+      pointer-events:none;
+    }
+    .hero-logo { position:relative; z-index:1; width:min(100%,520px); margin:10px auto 22px; filter:drop-shadow(0 22px 42px rgba(0,0,0,.34)); }
+    .stats { position:relative; z-index:1; display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+    .stat, .card { background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:22px; padding:18px; }
+    .label { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:8px; }
+    .value { font-size:1.16rem; font-weight:800; line-height:1.4; }
+    section { padding:40px 0; }
+    h2 { font-size:clamp(2rem,4vw,3.2rem); letter-spacing:-.04em; line-height:1.02; margin:0 0 14px; }
+    .sub { color:var(--muted); line-height:1.72; max-width:70ch; }
+    .grid2 { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+    .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px; }
+    .product-card {
+      position:relative; overflow:hidden; padding:28px; border-radius:28px; min-height:320px;
+    }
+    .status { display:inline-flex; padding:7px 10px; border-radius:999px; border:1px solid var(--line); font-size:.73rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); background:rgba(255,255,255,.04); }
+    .status.gold { color:#f4d48c; border-color:rgba(243,182,63,.28); background:rgba(243,182,63,.08); }
+    .product-card h3 { font-size:2rem; margin:18px 0 10px; letter-spacing:-.03em; }
+    .product-card p { color:#d5e4f1; line-height:1.72; max-width:48ch; }
+    .product-actions, .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:22px; }
+    .product-logo { width:240px; margin-top:20px; opacity:.96; }
+    .mini h4, .card h3 { margin:0 0 10px; font-size:1.08rem; }
+    .mini p, .card p { margin:0; color:#d8e5f1; line-height:1.68; }
+    .approach { display:grid; grid-template-columns:1.15fr .85fr; gap:20px; align-items:stretch; }
+    .statement {
+      padding:30px; border-radius:30px; background:linear-gradient(180deg,rgba(243,182,63,.12),rgba(243,182,63,.05)); border:1px solid rgba(243,182,63,.22);
+    }
+    .statement strong { display:block; font-size:1.8rem; line-height:1.24; letter-spacing:-.03em; }
+    .statement span { display:block; margin-top:14px; color:#f1dfb6; line-height:1.72; }
+    .stellarvum-panel {
+      margin-top: 18px; padding: 28px; border-radius: 32px;
+      background: linear-gradient(180deg, rgba(10,30,48,.86), rgba(8,22,35,.74));
+      border: 1px solid rgba(255,255,255,.08); box-shadow: var(--shadow);
+    }
+    footer { padding:44px 0 70px; color:var(--muted); }
+    .foot { display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; padding-top:20px; border-top:1px solid rgba(255,255,255,.08); }
+    .foot-links { display:flex; gap:18px; flex-wrap:wrap; }
+    @media (max-width:980px) {
+      .hero-grid, .grid2, .grid3, .approach, .stats { grid-template-columns:1fr; }
+      nav { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top">
+        <span class="brand-mark"><img src="stellarvum-logo.png" alt="Stellarvum logo"></span>
+        <span><small>Snapstern</small><strong>Financial Intelligence Tools</strong></span>
+      </a>
+      <nav>
+        <a href="#products">Products</a>
+        <a href="#stellarvum">Stellarvum</a>
+        <a href="#approach">Approach</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="cta">
+        <a class="btn" href="#stellarvum">Explore Stellarvum</a>
+        <a class="btn primary" href="https://testflight.apple.com/join/zncEGtP5" target="_blank" rel="noopener">Join CryptoSnap Beta</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Snapstern · Read-only intelligence layer</span>
+          <h1>Premium financial clarity,<br>without execution risk.</h1>
+          <p class="lead">Snapstern builds focused portfolio intelligence tools for people who want a precise, elegant view of their financial position. No custody. No transaction layer. No noise.</p>
+          <div class="actions">
+            <a class="btn primary" href="#stellarvum">View Stellarvum</a>
+            <a class="btn" href="https://testflight.apple.com/join/zncEGtP5" target="_blank" rel="noopener">Open CryptoSnap on TestFlight</a>
+          </div>
+          <div class="chips">
+            <span class="chip">Read-only by design</span>
+            <span class="chip">No trading</span>
+            <span class="chip">No custody</span>
+            <span class="chip">No financial advice</span>
+          </div>
+        </div>
+        <div class="hero-card">
+          <img class="hero-logo" src="stellarvum-logo.png" alt="Stellarvum brand mark">
+          <div class="stats">
+            <div class="stat"><div class="label">Stellarvum</div><div class="value">Multi-asset portfolio intelligence</div></div>
+            <div class="stat"><div class="label">CryptoSnap</div><div class="value">Live beta for focused crypto P&amp;L visibility</div></div>
+            <div class="stat"><div class="label">Positioning</div><div class="value">Intelligence layer, never the custody or transaction layer</div></div>
+            <div class="stat"><div class="label">Review safety</div><div class="value">No trade execution, no held assets, no investment advice</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products">
+      <div class="wrap">
+        <h2>Two focused products.<br><span style="color:var(--gold)">One disciplined philosophy.</span></h2>
+        <p class="sub">CryptoSnap proves the speed and usability of the approach. Stellarvum expands it into a premium multi-asset intelligence platform with stronger positioning and richer brand gravity.</p>
+        <div class="grid2">
+          <article class="product-card">
+            <span class="status">Beta · iOS</span>
+            <h3>CryptoSnap</h3>
+            <p>Real-time crypto P&amp;L visibility for users who want immediate clarity across holdings. Fast, focused, and already in TestFlight.</p>
+            <div class="grid3">
+              <div class="card mini"><h4>Live P&amp;L</h4><p>Clear portfolio movement without extra clutter.</p></div>
+              <div class="card mini"><h4>Manual entry</h4><p>No exchange logins, no API-key complexity.</p></div>
+              <div class="card mini"><h4>Beta loop</h4><p>Ideal proving ground for product feedback and polish.</p></div>
+            </div>
+            <div class="product-actions">
+              <a class="btn primary" href="https://testflight.apple.com/join/zncEGtP5" target="_blank" rel="noopener">Join TestFlight</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <span class="status gold">Flagship · in development</span>
+            <h3>Stellarvum</h3>
+            <p>Multi-asset portfolio intelligence with a precise and verifiable view of holdings, profit and loss, and performance context across asset classes.</p>
+            <img class="product-logo" src="stellarvum-logo.png" alt="Stellarvum logo">
+            <div class="product-actions">
+              <a class="btn primary" href="#stellarvum">View section</a>
+              <a class="btn" href="privacy.html">Privacy</a>
+              <a class="btn" href="support.html">Support</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="stellarvum">
+      <div class="wrap stellarvum-panel">
+        <span class="status gold">Stellarvum flagship</span>
+        <h2 style="margin-top:16px">A cultivated portfolio,<br><span style="color:var(--gold)">seen with precision.</span></h2>
+        <p class="sub">Stellarvum is a premium portfolio intelligence platform that delivers a verifiable view of financial holdings across asset classes. It is designed as an intelligence layer: precise, elegant, and deliberately separated from custody, execution, and advice.</p>
+        <div class="grid3">
+          <div class="card"><h3>Portfolio clarity</h3><p>A structured overview of holdings across asset classes, designed to feel calm, exact, and immediately useful.</p></div>
+          <div class="card"><h3>Performance intelligence</h3><p>A truer profit-and-loss mindset that respects costs, context, and the quality of the underlying data model.</p></div>
+          <div class="card"><h3>Verifiable positioning</h3><p>An architecture that supports premium trust because the product remains on the intelligence side of the market activity line.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="approach">
+      <div class="wrap approach">
+        <div class="card" style="padding:30px;border-radius:30px">
+          <h2>Built for trust,<br><span style="color:var(--gold)">not hype.</span></h2>
+          <p class="sub">The entire Snapstern positioning is deliberately structured to stay on the intelligence side of the line. That means your site messaging, App Store submission, and product narrative reinforce one another instead of creating review friction.</p>
+          <div class="grid3">
+            <div class="card"><h3>No execution layer</h3><p>The products do not place trades or transmit orders.</p></div>
+            <div class="card"><h3>No custody layer</h3><p>The products do not hold or manage user funds or assets.</p></div>
+            <div class="card"><h3>No advice layer</h3><p>The products do not provide investment recommendations.</p></div>
+          </div>
+        </div>
+        <div class="statement">
+          <strong>We separate financial intelligence from financial activity.</strong>
+          <span>That distinction is what makes the brand premium, credible, and app-review resilient.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <h2>Ready to publish with confidence.</h2>
+        <p class="sub">This homepage keeps all legal and support references consistently under Snapstern while allowing Stellarvum to grow as a flagship brand.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <strong style="display:block;color:#fff;margin-bottom:8px">Snapstern</strong>
+        <div>Financial intelligence tools built with clarity, restraint, and premium positioning.</div>
+      </div>
+      <div class="foot-links">
+        <a href="#stellarvum">Stellarvum</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="support.html">Support</a>
+        <a href="mailto:support@snapstern.com">support@snapstern.com</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

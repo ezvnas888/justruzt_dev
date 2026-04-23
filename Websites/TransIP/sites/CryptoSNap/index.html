@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CryptoSnap – Real-Time Crypto P&L Tracker</title>
+  <meta name="description" content="CryptoSnap gives investors instant, real-time profit & loss visibility across holdings — 24/7. Built by SnapStern." />
+  <meta name="theme-color" content="#081520" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --navy:#0F2A44;
+      --blue:#2F80ED;
+      --cyan:#56CCF2;
+      --gold:#F2B233;
+      --void:#081520;
+      --void-mid:#0b1c2d;
+      --white:#EEF4FB;
+      --silver:#7A9BB5;
+      --dim:#3A5570;
+
+      --f-display:'Inter', sans-serif;
+      --f-body:'Inter', sans-serif;
+      --f-mono:'Inter', monospace;
+
+      --r: 18px;
+      --ease-out:cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--f-body);
+      background: radial-gradient(1200px 700px at 50% -10%, rgba(47,128,237,.18), transparent 60%),
+                  radial-gradient(900px 600px at 85% 10%, rgba(242,178,51,.10), transparent 55%),
+                  linear-gradient(180deg, var(--void) 0%, var(--void-mid) 60%, #060f18 100%);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    body{
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+.sub, .app-desc, .section p{
+  color: rgba(238,244,251,.90);
+  font-size: 1.02rem;
+  line-height: 1.72;
+}
+
+    a{color:inherit; text-decoration:none}
+    .wrap{width:min(1120px, 92vw); margin:0 auto}
+
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(8,21,32,.62);
+      border-bottom: 1px solid rgba(122,155,181,.14);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 0;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:14px;
+      min-width: 220px;
+    }
+    .brand img{height:64px; width:auto; display:block}
+    .wordmark{
+      font-family:var(--f-display);
+      font-weight:800;
+      letter-spacing:.02em;
+      font-size: 1.6rem;
+      line-height:1;
+      display:flex; gap:0;
+    }
+    .wordmark-crypto{color:var(--white)}
+    .wordmark-snap{color:var(--gold)}
+    nav .links{
+      display:flex; align-items:center; gap:18px;
+      color: rgba(238,244,251,.90);
+      font-size:.95rem;
+    }
+    nav.links{
+      display:flex; align-items:center; gap:18px;
+      color: rgba(238,244,251,.90);
+      font-size:.95rem;
+    }
+    nav.links a{opacity:.9}
+    nav.links a:hover{opacity:1}
+    .cta{display:flex; align-items:center; gap:10px}
+    .btn{
+      border: 1px solid rgba(122,155,181,.22);
+      background: rgba(15,42,68,.25);
+      color: var(--white);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform .25s var(--ease-out), background .25s var(--ease-out), border-color .25s var(--ease-out);
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(242,178,51,.45)}
+    .btn.primary{
+      background: linear-gradient(90deg, rgba(242,178,51,.95), rgba(242,178,51,.85));
+      color:#081520;
+      border-color: transparent;
+    }
+
+    .hero{padding: 84px 0 56px; overflow:hidden}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 34px;
+      align-items:center;
+    }
+    .eyebrow{
+      font-family:var(--f-mono);
+      color: rgba(86,204,242,.92);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:.72rem;
+      margin: 0 0 14px;
+    }
+    h1{
+      font-family:var(--f-display);
+      font-weight:900;
+      letter-spacing:.01em;
+      margin: 0 0 14px;
+      font-size: clamp(3.1rem, 6vw, 5.0rem);
+      line-height: .95;
+    }
+    .sub{
+      color: rgba(238,244,251,.90);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 0 0 22px;
+      max-width: 54ch;
+    }
+    .hero-pills{display:flex; gap:10px; flex-wrap:wrap; margin-top: 16px}
+    .pill{
+      font-family:var(--f-mono);
+      font-size:.92rem;
+      letter-spacing:.08em;
+      color: rgba(238,244,251,.90);
+      border: 1px solid rgba(122,155,181,.20);
+      background: rgba(15,42,68,.18);
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+    .hero-phone{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-phone::after{
+      content:'';
+      position:absolute;
+      width:520px;
+      height:520px;
+      background:
+        radial-gradient(circle, rgba(242,178,51,.10), transparent 60%);
+      right:-60px;
+      top:50%;
+      transform:translateY(-50%);
+      pointer-events:none;
+    }
+    .device{
+      width:390px;
+      height:780px;
+      background:linear-gradient(180deg,#0c0f14,#000);
+      border-radius:54px;
+      padding:14px;
+      box-shadow:
+          0 50px 120px rgba(0,0,0,.55),
+          0 0 140px rgba(0,140,255,.12);
+      position:relative;
+    }
+    .device::before{
+      content:'';
+      position:absolute;
+      top:14px;
+      left:50%;
+      transform:translateX(-50%);
+      width:140px;
+      height:28px;
+      background:#0a0a0a;
+      border-radius:16px;
+      z-index:5;
+    }
+    .device-screen{
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      border-radius:42px;
+      background:#000;
+    }
+    .device-screen img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+    }
+    .hero-card{
+      border-radius: calc(var(--r) + 8px);
+      border: 1px solid rgba(122,155,181,.18);
+      background: linear-gradient(180deg, rgba(15,42,68,.36), rgba(15,42,68,.14));
+      box-shadow: 0 18px 70px rgba(0,0,0,.38);
+      padding: 18px;
+      position:relative;
+    }
+    .hero-card::before{
+      content:"";
+      position:absolute; inset:-1px;
+      border-radius: inherit;
+      background: radial-gradient(500px 220px at 30% 0%, rgba(47,128,237,.25), transparent 55%),
+                  radial-gradient(400px 220px at 70% 30%, rgba(242,178,51,.16), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
+      mask: linear-gradient(#000, #000) content-box, linear-gradient(#000,#000);
+      -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000,#000);
+      padding:1px;
+    }
+    .shot{
+      border-radius: var(--r);
+      border: 1px solid rgba(122,155,181,.16);
+      background: rgba(8,21,32,.55);
+      padding: 16px;
+      display:grid;
+      gap:12px;
+    }
+    .shot-top{display:flex; justify-content:space-between; align-items:center; gap:10px}
+    .chip{
+      font-family:var(--f-mono);
+      font-size:.70rem;
+      color: rgba(238,244,251,.90);
+      border: 1px solid rgba(122,155,181,.18);
+      background: rgba(15,42,68,.22);
+      padding: 6px 8px;
+      border-radius: 999px;
+    }
+    .metric{
+      display:grid; gap:6px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(122,155,181,.14);
+      background: rgba(15,42,68,.18);
+    }
+    .metric .k{font-family:var(--f-mono); font-size:.68rem; color:rgba(122,155,181,.95); letter-spacing:.10em; text-transform:uppercase}
+    .metric .v{font-family:var(--f-display); font-weight:800; font-size:1.7rem}
+    .metric .v .g{color:var(--gold)}
+    .mini-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+
+    .section{padding: 72px 0}
+    .section-title{
+      font-family: var(--f-display);
+      font-weight: 900;
+      letter-spacing:.01em;
+      margin: 0 0 12px;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+    }
+    .section p{color: rgba(238,244,251,.90); line-height:1.7}
+    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px}
+    .card{
+      border-radius: calc(var(--r) + 6px);
+      border: 1px solid rgba(122,155,181,.18);
+      background: rgba(15,42,68,.18);
+      padding: 18px;
+      transition: transform .28s var(--ease-out), border-color .28s var(--ease-out);
+      position:relative;
+      overflow:hidden;
+    }
+    .card:hover{transform: translateY(-3px); border-color: rgba(242,178,51,.32)}
+    .card .icon{
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(8,21,32,.55);
+      border: 1px solid rgba(122,155,181,.16);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .card h3{
+      font-family: var(--f-display);
+      font-weight: 800;
+      margin: 6px 0 8px;
+      font-size: 1.4rem;
+    }
+    .tag{
+      display:inline-flex;
+      font-family: var(--f-mono);
+      font-size: .70rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color: rgba(238,244,251,.90);
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(122,155,181,.18);
+      background: rgba(8,21,32,.35);
+      margin-top: 10px;
+    }
+
+    .suite{margin-top: 18px; display:grid; grid-template-columns: 1fr; gap: 12px}
+    .app-row{
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      border-radius: calc(var(--r) + 6px);
+      border: 1px solid rgba(122,155,181,.16);
+      background: rgba(15,42,68,.14);
+      padding: 14px 16px;
+    }
+    .app-left{display:flex; align-items:center; gap:14px}
+    .app-ico{
+      width:140px; height:140px;
+      border-radius: 12px;
+      border: 1px solid rgba(122,155,181,.16);
+      background: rgba(8,21,32,.55);
+      display:grid; place-items:center;
+      overflow:hidden;
+    }
+    .app-ico img{width:auto; height:92px; object-fit:cover; display:block}
+    .app-name{
+      font-family:var(--f-display);
+      font-weight: 900;
+      font-size: 1.35rem;
+      line-height:1.05;
+    }
+    .app-desc{color: rgba(238,244,251,.72); font-size:.95rem; margin-top: 4px}
+    .badge{
+      font-family: var(--f-mono);
+      font-size:.70rem;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(122,155,181,.18);
+      background: rgba(8,21,32,.35);
+      color: rgba(238,244,251,.78);
+      white-space:nowrap;
+    }
+    .badge.beta{border-color: rgba(242,178,51,.35); color: rgba(242,178,51,.95)}
+    .badge.tba{border-color: rgba(86,204,242,.25); color: rgba(86,204,242,.90)}
+
+    footer{padding: 60px 0 56px; border-top: 1px solid rgba(122,155,181,.14); background: rgba(8,21,32,.35)}
+    .footer-inner{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+    .foot-left{display:flex; align-items:center; gap:12px}
+    .foot-left img{height:72px}
+    .muted{color: rgba(122,155,181,.90); font-size:.9rem}
+    .copy{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.08em; color: rgba(122,155,181,.75)}
+
+    footer a{
+      color: rgba(242,178,51,.92);
+      text-decoration:none;
+    }
+
+    footer a:hover{
+      color:#56CCF2;
+    }
+
+    @media (max-width: 960px){
+      .hero-grid{grid-template-columns: 1fr; gap: 22px}
+      nav .links{display:none}
+      .grid3{grid-template-columns: 1fr}
+    }
+    /* ===== FIX device frame stacking (notch + glow) ===== */
+    .hero-phone{
+      position:relative;
+      isolation:isolate;            /* maakt eigen stacking context */
+      display:flex;
+      justify-content:flex-end;     /* zoals op je screenshot */
+      align-items:center;
+    }
+
+    .hero-phone::after{
+      z-index:0;                    /* glow achter alles */
+    }
+
+    .device{
+      position:relative;
+      margin-right: -12px; /* subtiel */
+      z-index:1;                    /* toestel boven glow */
+    }
+
+    .device-screen{
+      position:relative;
+      z-index:1;                    /* screen onder notch */
+    }
+    .device::before{
+      z-index:2;                    /* notch boven screen */
+    }
+    .device{
+      width: 410px;
+      height: 820px;
+      padding: 16px;
+      border-radius: 60px;
+
+      /* duidelijke hardware-rand (metal rim) */
+      background: linear-gradient(135deg,
+        rgba(255,255,255,.14),
+        rgba(255,255,255,.03) 28%,
+        rgba(0,0,0,.35) 60%,
+        rgba(255,255,255,.06)
+      );
+
+      box-shadow:
+        0 60px 140px rgba(0,0,0,.65),
+        0 0 160px rgba(0,140,255,.14);
+
+      position: relative;
+    }
+    /* ===== Make the device rim/bezel more visible on dark hero ===== */
+
+    .device{
+      /* iets meer contrast in de metal rim */
+      background: linear-gradient(135deg,
+        rgba(255,255,255,.22),
+        rgba(255,255,255,.06) 26%,
+        rgba(0,0,0,.45) 62%,
+        rgba(255,255,255,.10)
+      );
+
+      /* extra rand + diepte */
+      box-shadow:
+        0 70px 160px rgba(0,0,0,.72),
+        0 0 190px rgba(0,140,255,.16),
+        0 0 0 1px rgba(255,255,255,.10);  /* dunne outline */
+    }
+
+    /* inner bezel duidelijker */
+    .device::after{
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.12),
+        inset 0 0 0 12px rgba(0,0,0,.55);
+    }
+
+    /* spotlight achter toestel iets sterker */
+    .hero-phone::after{
+      background:
+        radial-gradient(circle, rgba(242,178,51,.18), transparent 62%),
+        radial-gradient(circle, rgba(86,204,242,.10), transparent 60%);
+      filter: blur(1px);
+    }
+    .device{
+      transform: translateY(8px) rotate(-1deg);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-inner">
+    <a class="brand" href="#" aria-label="CryptoSnap Home">
+    <img src="cryptosnap-icon.png" alt="CryptoSnap icon" />
+    <span class="wordmark">
+        <span class="wordmark-crypto">Crypto</span>
+        <span class="wordmark-snap">Snap</span>
+    </span>
+</a>
+
+    <nav class="links" aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#suite">App Suite</a>
+      <a href="#about">SnapStern</a>
+    </nav>
+
+    <div class="cta">
+      <a class="btn" href="#suite">Explore Suite</a>
+    <a href="https://testflight.apple.com/join/zncEGtP5"
+      class="btn btn-primary"
+      target="_blank"
+      rel="noopener">
+      Join Beta
+    </a>    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Real-time crypto P&L · iOS</p>
+        <h1>Know your position<br/> <span style="color:var(--gold)">24/7</span>.</h1>
+        <p class="sub">
+          CryptoSnap strips away the noise and gives you instant visibility into unrealized profit &amp; loss across all holdings — live prices, live P&amp;L, zero clutter.
+        </p>
+        <div class="hero-pills">
+          <span class="pill">Live P&amp;L</span>
+          <span class="pill">Manual Holdings</span>
+          <span class="pill">Privacy-first</span>
+          <span class="pill">iOS 16+</span>
+        </div>
+      </div>
+
+      <div class="hero-phone">
+          <div class="device">
+              <div class="device-screen">
+                  <img src="apple_snap.png" alt="CryptoSnap app">
+              </div>
+          </div>
+      </div>
+</div>   
+  </section>
+
+  <section id="features" class="section">
+    <div class="wrap">
+      <h2 class="section-title">Everything you need.<br/><span style="color:var(--gold)">Nothing you don't.</span></h2>
+      <p>A reliable reference in turbulent times. Designed for active investors who demand precision. CryptoSnap keeps you oriented: your holdings, your cost basis, and your live P&amp;L — always current.</p>
+
+      <div class="grid3">
+        <div class="card">
+          <div class="icon">📡</div>
+          <h3>Live Market Data</h3>
+          <p>Real-time pricing across major crypto assets. No stale values — your portfolio reflects the market as it moves.</p>
+          <span class="tag">24/7 uptime</span>
+        </div>
+
+        <div class="card">
+          <div class="icon">⚡</div>
+          <h3>Instant P&amp;L</h3>
+          <p>Profit and loss — per asset and portfolio-wide — calculated continuously and displayed in your currency of choice.</p>
+          <span class="tag">clarity first</span>
+        </div>
+
+        <div class="card">
+          <div class="icon">🔒</div>
+          <h3>Privacy-first</h3>
+          <p>Manual entry by design. No exchange logins, no API keys. Your data stays on-device and under your control.</p>
+          <span class="tag">zero exposure</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roadmap" class="section">
+    <div class="wrap">
+      <h2 class="section-title">Roadmap.<span style="color:var(--gold)"> Fast.</span></h2>
+      <p>v1.0 is the foundation. Here’s what’s coming next as the beta feedback rolls in.</p>
+
+      <div class="grid3">
+        <div class="card">
+          <div class="icon">●</div>
+          <h3>v1.0 — Live Beta</h3>
+          <p>Real-time crypto portfolio tracking with live P&amp;L per asset and across your full portfolio.</p>
+          <span class="tag">now</span>
+        </div>
+        <div class="card">
+          <div class="icon">○</div>
+          <h3>v1.5 — Alerts &amp; History</h3>
+          <p>Custom price alerts, P&amp;L notifications, and performance history views (30/90/180 days).</p>
+          <span class="tag">q2 2026</span>
+        </div>
+        <div class="card">
+          <div class="icon">○</div>
+          <h3>v2.0 — Exchange Sync</h3>
+          <p>Optional read-only integrations. Auto-sync holdings and export tax-ready transactions.</p>
+          <span class="tag">q3 2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="about" class="section">
+  <div class="wrap">
+
+    <h2 class="section-title">
+      Built by <span style="color:var(--gold)">SnapApps</span>
+    </h2>
+
+    <p>
+      SnapApps is an independent financial intelligence studio focused on structured capital clarity.
+      We build focused tools that help investors monitor exposure, understand risk, and maintain control across fragmented financial environments.
+    </p>
+
+    <p>
+      No hype. No unnecessary complexity. Just clear tools designed for disciplined investors.
+    </p>
+
+    <div id="join" class="card" style="margin-top:18px">
+
+      <h3 style="margin:0 0 8px; font-family:var(--f-display); font-weight:900;">
+        Join the CryptoSnap beta
+      </h3>
+
+      <p style="margin:0 0 14px;">
+        Get access via Apple TestFlight. Limited slots. Feedback drives the roadmap.
+      </p>
+
+      <div style="display:flex; align-items:center; gap:28px; flex-wrap:wrap; margin-top:20px;">
+
+        <div>
+
+          <a href="https://testflight.apple.com/join/zncEGtP5"
+             class="btn btn-primary"
+             target="_blank"
+             rel="noopener">
+             Join CryptoSnap on TestFlight
+          </a>
+
+          <p style="margin-top:14px; font-size:.95rem; color:rgba(238,244,251,.82); max-width:260px;">
+            Scan with your iPhone to open directly in TestFlight.
+          </p>
+
+          <p style="margin-top:8px; font-size:.85rem; color:rgba(122,155,181,.90); max-width:260px;">
+            Requires TestFlight installed on your Apple device.
+          </p>
+
+        </div>
+
+        <img src="frame.png"
+             alt="CryptoSnap TestFlight QR"
+             style="width:140px; border-radius:12px; background:white; padding:8px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="foot-left">
+      <img src="snap_logo_pimp.png" alt="Snap" />
+      <div>
+        <div class="muted">SternSnap · The Snap Suite</div>
+        <div class="copy">
+          © 2026 SternSnap · 
+          <a href="privacy.html">Privacy</a> · 
+          <a href="mailto:info@snapstern.com?subject=CryptoSnap Beta Access Request">Contact</a> · 
+          <a href="https://cryptosnapapp.wordpress.com/beta-releases/">Guide for testing</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy">
+      Beta access: 
+      <a href="mailto:info@snapstern.com?subject=CryptoSnap Beta Access Request">
+        info@snapstern.com
+      </a>
+    </div>
+  </div>
+</html>

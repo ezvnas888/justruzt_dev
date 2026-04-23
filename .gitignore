@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python virtual environment
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Sensitive files
+Resources/Free API-keys.rtf
+*.env
+.env*
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Portfolio data (gevoelige financiële structuur)
+SV_python/*.csv
+SV_python/*.xlsx
+
+# Xcode / Stellarvum (al eigen git-repo)
+Stellarvum/
+
+# Editor
+.vscode/
+.idea/
